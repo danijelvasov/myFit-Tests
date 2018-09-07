@@ -12,7 +12,7 @@ class AlertService {
     
     private init () {}
     
-    static func addAlert(in vc: UIViewController, completion: @escaping (String, String, String)->()) {
+    static func addAlert(in vc: UIViewController, completion: @escaping (String, String, String,String)->()) {
         
         let alert = UIAlertController(title: "Add new test results:", message: nil, preferredStyle: .alert)
         alert.addTextField { (nameTextField) in
@@ -24,14 +24,18 @@ class AlertService {
         alert.addTextField { (crunchTextField) in
             crunchTextField.placeholder = "crunches result"
         }
+        alert.addTextField { (plankTextField) in
+            plankTextField.placeholder = "plank max time"
+        }
         
         let addAction = UIAlertAction(title: "Add", style: .default) { (_) in
             guard let name = alert.textFields?.first?.text,
                 let runResult = alert.textFields?[1].text,
-                let crunchResult = alert.textFields?.last?.text
+                let crunchResult = alert.textFields?[2].text,
+                let plankResult = alert.textFields?.last?.text
             else {return}
             
-            completion(name,runResult,crunchResult)
+            completion(name,runResult,crunchResult,plankResult)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
@@ -40,7 +44,7 @@ class AlertService {
         vc.present(alert, animated: true, completion: nil)
     }
     
-    static func updateAlert(in vc: UIViewController, tests: Tests, completion: @escaping (String, String, String)->()) {
+    static func updateAlert(in vc: UIViewController, tests: Tests, completion: @escaping (String, String, String,String)->()) {
         let alert = UIAlertController(title: "Edit results:", message: nil, preferredStyle: .alert)
         alert.addTextField { (nameField) in
             nameField.placeholder = "client name"
@@ -54,14 +58,20 @@ class AlertService {
             crunchField.placeholder = "crunches result"
             crunchField.text = tests.crunchResult
         }
+        alert.addTextField { (plankField) in
+            plankField.placeholder = "plank max time"
+            plankField.text = tests.plankResult
+        }
         
         
         let updateAction = UIAlertAction(title: "Update", style: .default) { (_) in
             guard let name = alert.textFields?.first?.text,
             let runResult = alert.textFields?[1].text,
-            let crunchResult = alert.textFields?.last?.text else {return}
+            let crunchResult = alert.textFields?[2].text,
+            let plankResult = alert.textFields?.last?.text
+            else {return}
         
-        completion(name, runResult,crunchResult)
+        completion(name, runResult,crunchResult,plankResult)
     }
     
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive , handler: nil)
