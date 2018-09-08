@@ -30,13 +30,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             RealmServices.sharedInstance.save(resutsToSave)
             self.tableView.insertRows(at: [IndexPath(row: self.testsArray.count - 1, section: 0)], with: UITableView.RowAnimation.left)
         }
-        
-        
-//        AlertService.addAlert(in: self) { (name, runResult, crunchResult, plankResult) in
-//            let resultsToSave = Tests(name: name, runResult: runResult, crunchResult: crunchResult, plankResult: plankResult)
-//            RealmServices.sharedInstance.save(resultsToSave)
-//            self.tableView.insertRows(at: [IndexPath(row: self.testsArray.count-1, section: 0)], with: UITableView.RowAnimation.left)
-//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,16 +57,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             RealmServices.sharedInstance.update(testToEdit, with: dictToEdit)
             self.tableView.reloadData()
         }
-        
-//        AlertService.updateAlert(in: self, tests: testToEdit) { (name, runResult, crunchResult, plankResult) in
-//            let dictionaryToEdit = ["name" : name,
-//                                    "runResult" : runResult,
-//                                    "crunchResult" : crunchResult,
-//                                    "plankResult" : plankResult]
-//            RealmServices.sharedInstance.update(testToEdit, with: dictionaryToEdit)
-//            self.tableView.reloadData()
-//        }
-        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -108,4 +91,3 @@ class Cell : UITableViewCell {
     
 }
 
-/// add labels to cell and connect outlets
