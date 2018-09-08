@@ -25,10 +25,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     @IBAction func addBtnPressed(_ sender: Any) {
-        AlertService.addAlert(in: self) { (name, runResult, crunchResult) in
-            let newTestResultToSave = Tests(name: name, runResult: runResult, crunchResult: crunchResult)
-            RealmServices.sharedInstance.save(newTestResultToSave)
-            self.tableView.insertRows(at: [IndexPath(row: self.testsArray.count-1, section: 0)], with: .automatic)
+        AlertService.addAlert(in: self) { (name, date, runResult, crunchResult, plankResult, pushupResult, rowResult) in
+            let resutsToSave = Tests(name: name, date: date, runResult: runResult, crunchResult: crunchResult, plankResult: plankResult, pushupResult: pushupResult, rowResult: rowResult)
+            RealmServices.sharedInstance.save(resutsToSave)
+            self.tableView.insertRows(at: [IndexPath(row: self.testsArray.count - 1, section: 0)], with: UITableView.RowAnimation.left)
         }
     }
     
@@ -52,11 +52,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let testToEdit = testsArray[indexPath.row]
-        AlertService.updateAlert(in: self, tests: testToEdit) { (name, runResult, crunchResult) in
-            let dictionary : [String : Any?] = ["name" : name,
-                                                                "runResult" : runResult,
-                                                                "crunchResult": crunchResult]
-            RealmServices.sharedInstance.update(testToEdit, with: dictionary)
+        AlertService.updateAlert(in: self, tests: testToEdit) { (name, date, runResult, crunchResult, plankResult, pushupResult, rowResult) in
+            let dictToEdit = ["name" : name, "date" : date, "runResult" : runResult, "crunchResult" : crunchResult, "pushupResult" : pushupResult, "rowResult" : rowResult]
+            RealmServices.sharedInstance.update(testToEdit, with: dictToEdit)
             self.tableView.reloadData()
         }
     }
@@ -74,13 +72,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 class Cell : UITableViewCell {
     
     @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var runLbl: UILabel!
     @IBOutlet weak var brunchLbl: UILabel!
+    @IBOutlet weak var plankLbl: UILabel!
+    @IBOutlet weak var pushupLbl: UILabel!
+    @IBOutlet weak var rowLbl: UILabel!
     
     func configureCell(with tests: Tests){
         nameLbl.text = tests.name
+        dateLbl.text = tests.date
         runLbl.text = tests.runResult
         brunchLbl.text = tests.crunchResult
+        plankLbl.text = tests.plankResult
+        pushupLbl.text = tests.pushupResult
+        rowLbl.text = tests.rowResult
     }
     
 }
